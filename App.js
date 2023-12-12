@@ -1,17 +1,15 @@
-// Importa las bibliotecas necesarias
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-
-// Importa los componentes de tus pantallas
+import { FontAwesome5 } from "@expo/vector-icons";
+import { Fontisto } from "@expo/vector-icons";
 
 import PinterestStyleImageGrid from "./PinterestStyleImageGrid";
 import SearchImageGrid from "./SearchImageGrid";
+import { View } from "react-native";
 
-// Crea un objeto de pestañas inferiores
 const Tab = createBottomTabNavigator();
 
-// Función principal que define la estructura de navegación
 function App() {
   return (
     <NavigationContainer>
@@ -29,12 +27,28 @@ function App() {
         <Tab.Screen
           name="Imagenes random - Unsplash API"
           component={PinterestStyleImageGrid}
-          options={{ tabBarLabel: "Imagen aleatoria" }}
+          options={{
+            tabBarIcon: () => {
+              return (
+                <View>
+                  <FontAwesome5 name="dice" size={24} color="black" />
+                </View>
+              );
+            },
+          }}
         />
         <Tab.Screen
           name="Busqueda de imagenes - Unsplash API"
           component={SearchImageGrid}
-          options={{ tabBarLabel: "Buscar imagen" }}
+          options={{
+            tabBarIcon: () => {
+              return (
+                <View>
+                  <Fontisto name="zoom" size={24} color="black" />
+                </View>
+              );
+            },
+          }}
         />
       </Tab.Navigator>
     </NavigationContainer>
