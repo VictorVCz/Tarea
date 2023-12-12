@@ -8,28 +8,30 @@ import {
   Modal,
   Pressable,
   Text,
+  TextInput,
 } from "react-native";
 import { UNSPLASH_ACCESS_KEY } from "@env";
 
 const numColumns = 2;
 const windowWidth = Dimensions.get("window").width;
 
-const PinterestStyleImageGrid = () => {
+const SearchImageGrid = () => {
   const [images, setImages] = useState([]);
+  const [search, setSearch] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
   useEffect(() => {
     fetchImages();
-  }, []);
+  }, [search]);
 
   const fetchImages = async () => {
     try {
       const response = await fetch(
-        `https://api.unsplash.com/photos/random?client_id=${UNSPLASH_ACCESS_KEY}&count=30`
+        `https://api.unsplash.com/search/photos?client_id=${UNSPLASH_ACCESS_KEY}&query=${search}&per_page=100`
       );
       const data = await response.json();
-      setImages(data);
+      setImages(data.results);
     } catch (error) {
       console.error(error);
     }
@@ -57,6 +59,18 @@ const PinterestStyleImageGrid = () => {
 
   return (
     <View>
+      <View style={styles.inputContainer}>
+        <Text style={styles.MainText}>Busqueda por nombre</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Ingresa tu texto"
+          value={search}
+          onChangeText={(newText) => setSearch(newText)}
+        />
+      </View>
+      {images.length === 0 && (
+        <Text style={styles.noResultText}>No se encontraron imagenes</Text>
+      )}
       <FlatList
         data={images}
         renderItem={renderItem}
@@ -128,6 +142,32 @@ const styles = StyleSheet.create({
     color: "#000",
     fontWeight: "bold",
   },
+  inputContainer: {
+    padding: 16,
+    paddingTop: 50, // Ajusta según tu necesidad
+    backgroundColor: "#fff",
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
+  MainText: {
+    fontSize: 24,
+    color: "black", // Puedes cambiar el color según tus preferencias
+    textAlign: "center",
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  noResultText: {
+    fontSize: 18,
+    color: "red", // Puedes cambiar el color según tus preferencias
+    textAlign: "center",
+    marginTop: 20,
+  },
 });
 
-export default PinterestStyleImageGrid;
+export default SearchImageGrid;

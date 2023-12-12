@@ -1,24 +1,44 @@
-import React from 'react';
-import { SafeAreaView, StyleSheet, StatusBar } from 'react-native';
-import UnsplashImageGrid from './PinterestStyleImageGrid';
+// Importa las bibliotecas necesarias
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-const App = () => {
+// Importa los componentes de tus pantallas
+
+import PinterestStyleImageGrid from "./PinterestStyleImageGrid";
+import SearchImageGrid from "./SearchImageGrid";
+
+// Crea un objeto de pestañas inferiores
+const Tab = createBottomTabNavigator();
+
+// Función principal que define la estructura de navegación
+function App() {
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView style={styles.safeArea}>
-        <UnsplashImageGrid />
-      </SafeAreaView>
-    </>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={{
+          labelStyle: {
+            fontSize: 18,
+          },
+          tabStyle: {
+            justifyContent: "center",
+            alignItems: "center",
+          },
+        }}
+      >
+        <Tab.Screen
+          name="Imagenes random - Unsplash API"
+          component={PinterestStyleImageGrid}
+          options={{ tabBarLabel: "Imagen aleatoria" }}
+        />
+        <Tab.Screen
+          name="Busqueda de imagenes - Unsplash API"
+          component={SearchImageGrid}
+          options={{ tabBarLabel: "Buscar imagen" }}
+        />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-};
-
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
+}
 
 export default App;
