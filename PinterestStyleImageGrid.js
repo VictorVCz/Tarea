@@ -30,14 +30,14 @@ const PinterestStyleImageGrid = () => {
   };
 
   const renderItem = ({ item }) => {
-    const imageWidth = windowWidth / numColumns;
+    const imageWidth = windowWidth / numColumns - 10;
     const imageHeight = imageWidth * (item.height / item.width);
     return (
       <Pressable onPress={() => openModal(item)}>
-        <View style={styles.card}>
+        <View style={[styles.card, { width: imageWidth, height: imageHeight }]}>
           <Image
             source={{ uri: item.urls.regular }}
-            style={{ width: imageWidth, height: imageHeight, borderRadius: 10 }}
+            style={[styles.image, { height: imageHeight }]}
           />
         </View>
       </Pressable>
@@ -79,22 +79,22 @@ const PinterestStyleImageGrid = () => {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 10,
   },
   card: {
-    flex: 1,
     margin: 5,
-    borderRadius: 10,
+    borderRadius: 15,
     overflow: 'hidden',
     backgroundColor: '#fff',
-    elevation: 3,
-    boxShadow: '0px 1px 3px rgba(0, 0, 0, 0.2)',
+    elevation: 5,
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
   },
   modalView: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)',
   },
   modalImage: {
     width: '90%',
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     right: 20,
     backgroundColor: '#fff',
     padding: 10,
-    borderRadius: 10,
+    borderRadius: 20,
     elevation: 2,
   },
   closeButtonText: {
